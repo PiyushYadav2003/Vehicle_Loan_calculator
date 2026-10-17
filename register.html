@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register | Vehicle Loan Calculator</title>
+  <meta name="description" content="Create a free demo account to save and track your car, bike, and vehicle loan calculations.">
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Custom Modern Banking Style -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-light">
+
+  <!-- Academic Demo Disclaimer Top Bar -->
+  <aside class="academic-notice-banner" aria-label="Academic project notice">
+    <div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
+      <div>
+        <i class="bi bi-mortarboard-fill me-1 text-warning"></i>
+        <strong>College Demonstration Prototype:</strong> LocalStorage Mock Registration
+      </div>
+      <div>
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle">
+          Educational Prototype
+        </span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Navbar -->
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-custom">
+      <div class="container">
+        <a class="navbar-brand" href="index.html">
+          <div class="brand-icon">
+            <i class="bi bi-speedometer2"></i>
+          </div>
+          <span>AutoLoan<span style="color: var(--accent-blue-400);">Calc</span></span>
+        </a>
+        <div class="d-flex align-items-center gap-2">
+          <a href="index.html" class="nav-link text-white-50"><i class="bi bi-arrow-left me-1"></i> Back to Home</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="auth-wrapper">
+    <div class="auth-card" style="max-width: 520px;">
+      <div class="auth-header">
+        <div class="brand-icon mx-auto mb-2" style="width: 48px; height: 48px; font-size: 1.5rem;">
+          <i class="bi bi-person-plus-fill"></i>
+        </div>
+        <h2 class="h3 fw-bold text-white mb-1">Create Account</h2>
+        <p class="text-white-50 small mb-0">Join to calculate, save, and compare multiple vehicle financing offers</p>
+      </div>
+
+      <div class="auth-body">
+        <!-- Error Alert Box -->
+        <div id="registerAlertBox" class="alert alert-danger d-none py-2 px-3 small" role="alert">
+          <i class="bi bi-exclamation-triangle-fill me-1"></i>
+          <span id="registerAlertMessage">Registration error</span>
+        </div>
+
+        <!-- Success Alert Box -->
+        <div id="registerSuccessBox" class="alert alert-success d-none py-2 px-3 small" role="alert">
+          <i class="bi bi-check-circle-fill me-1"></i>
+          <span id="registerSuccessMessage">Registration successful! Redirecting to login...</span>
+        </div>
+
+        <form id="registerForm" novalidate>
+          <!-- Full Name -->
+          <div class="mb-3">
+            <label for="regName" class="form-label small fw-bold text-dark">Full Name</label>
+            <div class="auth-input-group">
+              <i class="bi bi-person auth-input-icon"></i>
+              <input type="text" class="auth-input" id="regName" placeholder="e.g. Rahul Sharma" required autocomplete="name">
+            </div>
+          </div>
+
+          <!-- Email Address -->
+          <div class="mb-3">
+            <label for="regEmail" class="form-label small fw-bold text-dark">Email Address</label>
+            <div class="auth-input-group">
+              <i class="bi bi-envelope auth-input-icon"></i>
+              <input type="email" class="auth-input" id="regEmail" placeholder="name@example.com" required autocomplete="email">
+            </div>
+            <div id="emailFormatHint" class="small text-muted mt-1 d-none text-danger">Please enter a valid email format.</div>
+          </div>
+
+          <!-- Password with Strength Indicator -->
+          <div class="mb-3">
+            <label for="regPassword" class="form-label small fw-bold text-dark">Password</label>
+            <div class="auth-input-group mb-1">
+              <i class="bi bi-lock auth-input-icon"></i>
+              <input type="password" class="auth-input" id="regPassword" placeholder="Minimum 6 characters" required autocomplete="new-password">
+              <button type="button" class="auth-toggle-pwd" id="toggleRegPwdBtn" aria-label="Toggle password visibility">
+                <i class="bi bi-eye" id="toggleRegPwdIcon"></i>
+              </button>
+            </div>
+
+            <!-- Strength Bar & Status -->
+            <div class="d-flex justify-content-between align-items-center mt-1">
+              <span class="small text-muted">Password Strength:</span>
+              <span id="pwdStrengthLabel" class="pwd-strength-text text-muted">None</span>
+            </div>
+            <div class="pwd-strength-bar">
+              <div id="pwdStrengthFill" class="pwd-strength-fill"></div>
+            </div>
+            <small class="text-muted d-block mt-1" style="font-size: 0.75rem;">
+              Tip: Use uppercase, numbers, and symbols for a stronger score.
+            </small>
+          </div>
+
+          <!-- Confirm Password -->
+          <div class="mb-3">
+            <label for="regConfirmPassword" class="form-label small fw-bold text-dark">Confirm Password</label>
+            <div class="auth-input-group">
+              <i class="bi bi-shield-check auth-input-icon"></i>
+              <input type="password" class="auth-input" id="regConfirmPassword" placeholder="Re-enter your password" required autocomplete="new-password">
+            </div>
+            <div id="passwordMatchHint" class="small mt-1 d-none">
+              <!-- Dynamically shows matching status -->
+            </div>
+          </div>
+
+          <!-- Terms & Conditions Checkbox -->
+          <div class="mb-4">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="termsCheckbox" required>
+              <label class="form-check-label small text-muted" for="termsCheckbox">
+                I agree to the <a href="#" class="text-primary text-decoration-none" data-bs-toggle="modal" data-bs-target="#termsModal">Demo Terms &amp; Conditions</a> and understand this is an educational mock application.
+              </label>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="btn btn-primary-custom w-100 py-2 mb-3" id="registerSubmitBtn">
+            <span id="registerBtnText"><i class="bi bi-check2-circle me-1"></i> Register Account</span>
+            <span id="registerBtnSpinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+          </button>
+        </form>
+
+        <div class="text-center pt-2 border-top">
+          <p class="small text-muted mb-0">
+            Already registered? 
+            <a href="login.html" class="fw-bold text-primary text-decoration-none">Sign In here</a>
+          </p>
+        </div>
+
+        <!-- Academic Disclaimer Callout -->
+        <div class="demo-disclaimer-box">
+          <i class="bi bi-shield-exclamation flex-shrink-0 mt-1"></i>
+          <div>
+            <strong>Educational Security Notice:</strong> This project stores registered accounts in your local browser storage (<code class="text-dark">localStorage</code>). For a production deployment, passwords must be securely hashed on a backend server using algorithms like bcrypt or Argon2 over HTTPS.
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Demo Terms & Conditions Modal -->
+  <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg" style="border-radius: var(--radius-lg);">
+        <div class="modal-header bg-light">
+          <h5 class="modal-title fw-bold text-dark" id="termsModalLabel">
+            <i class="bi bi-file-text-fill text-primary me-2"></i> Demonstration Terms of Service
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4 small text-muted">
+          <h6 class="fw-bold text-dark">1. Academic Purpose</h6>
+          <p>This web application is developed solely for college Web Technology demonstration, laboratory assignments, and viva evaluation.</p>
+
+          <h6 class="fw-bold text-dark">2. Mathematical Estimations</h6>
+          <p>Calculations performed by the Vehicle Loan EMI Calculator are mathematical estimates based on reducing balance formulas. Actual bank loans may incorporate processing fees, documentation charges, pre-EMI interest, and local taxes.</p>
+
+          <h6 class="fw-bold text-dark">3. Client-Side Data Storage</h6>
+          <p>All user information, passwords, and calculation histories are stored on your local computer's browser storage. No data is transmitted to an external web server or third-party cloud.</p>
+        </div>
+        <div class="modal-footer bg-light">
+          <button type="button" class="btn btn-primary-custom btn-sm" data-bs-dismiss="modal">I Understand</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap 5 Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Modular Scripts -->
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // If already logged in, redirect
+      redirectIfLoggedIn();
+
+      const form = document.getElementById('registerForm');
+      const nameInput = document.getElementById('regName');
+      const emailInput = document.getElementById('regEmail');
+      const pwdInput = document.getElementById('regPassword');
+      const confirmPwdInput = document.getElementById('regConfirmPassword');
+      const termsCheck = document.getElementById('termsCheckbox');
+
+      const toggleBtn = document.getElementById('toggleRegPwdBtn');
+      const toggleIcon = document.getElementById('toggleRegPwdIcon');
+
+      const strengthFill = document.getElementById('pwdStrengthFill');
+      const strengthLabel = document.getElementById('pwdStrengthLabel');
+      const matchHint = document.getElementById('passwordMatchHint');
+
+      const alertBox = document.getElementById('registerAlertBox');
+      const alertMsg = document.getElementById('registerAlertMessage');
+      const successBox = document.getElementById('registerSuccessBox');
+      const successMsg = document.getElementById('registerSuccessMessage');
+      const submitBtn = document.getElementById('registerSubmitBtn');
+      const btnText = document.getElementById('registerBtnText');
+      const btnSpinner = document.getElementById('registerBtnSpinner');
+
+      // Toggle Password Visibility
+      toggleBtn.addEventListener('click', () => {
+        const isPassword = pwdInput.type === 'password';
+        pwdInput.type = isPassword ? 'text' : 'password';
+        toggleIcon.className = isPassword ? 'bi bi-eye-slash' : 'bi bi-eye';
+      });
+
+      // Live Password Strength Meter
+      pwdInput.addEventListener('input', () => {
+        const val = pwdInput.value;
+        const res = checkPasswordStrength(val);
+
+        strengthFill.style.width = res.percent + '%';
+        strengthFill.style.backgroundColor = res.color;
+        strengthLabel.textContent = res.text;
+        strengthLabel.style.color = res.color;
+
+        validatePasswordMatch();
+      });
+
+      // Live Password Match Validation
+      function validatePasswordMatch() {
+        const p1 = pwdInput.value;
+        const p2 = confirmPwdInput.value;
+
+        if (!p2) {
+          matchHint.classList.add('d-none');
+          return;
+        }
+
+        matchHint.classList.remove('d-none');
+        if (p1 === p2) {
+          matchHint.className = 'small mt-1 text-success fw-semibold';
+          matchHint.innerHTML = '<i class="bi bi-check-circle-fill me-1"></i> Passwords match!';
+        } else {
+          matchHint.className = 'small mt-1 text-danger fw-semibold';
+          matchHint.innerHTML = '<i class="bi bi-x-circle-fill me-1"></i> Passwords do not match!';
+        }
+      }
+
+      confirmPwdInput.addEventListener('input', validatePasswordMatch);
+
+      // Form Submission
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        alertBox.classList.add('d-none');
+        successBox.classList.add('d-none');
+
+        const name = nameInput.value.trim();
+        const email = emailInput.value.trim();
+        const password = pwdInput.value;
+        const confirmPassword = confirmPwdInput.value;
+
+        // Validations
+        if (!name) {
+          alertMsg.textContent = 'Please enter your full name.';
+          alertBox.classList.remove('d-none');
+          nameInput.focus();
+          return;
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email || !emailRegex.test(email)) {
+          alertMsg.textContent = 'Please enter a valid email address (e.g. user@domain.com).';
+          alertBox.classList.remove('d-none');
+          emailInput.focus();
+          return;
+        }
+
+        if (password.length < 6) {
+          alertMsg.textContent = 'Password must be at least 6 characters long.';
+          alertBox.classList.remove('d-none');
+          pwdInput.focus();
+          return;
+        }
+
+        if (password !== confirmPassword) {
+          alertMsg.textContent = 'Passwords do not match. Please ensure both fields match.';
+          alertBox.classList.remove('d-none');
+          confirmPwdInput.focus();
+          return;
+        }
+
+        if (!termsCheck.checked) {
+          alertMsg.textContent = 'Please accept the demonstration terms and conditions.';
+          alertBox.classList.remove('d-none');
+          termsCheck.focus();
+          return;
+        }
+
+        // Show loading state
+        submitBtn.disabled = true;
+        btnText.classList.add('d-none');
+        btnSpinner.classList.remove('d-none');
+
+        setTimeout(() => {
+          const result = registerUser(name, email, password);
+
+          if (result.success) {
+            successMsg.textContent = 'Registration successful! Redirecting to login in 1.5 seconds...';
+            successBox.classList.remove('d-none');
+
+            setTimeout(() => {
+              window.location.href = 'login.html';
+            }, 1500);
+          } else {
+            submitBtn.disabled = false;
+            btnText.classList.remove('d-none');
+            btnSpinner.classList.add('d-none');
+            alertMsg.textContent = result.message;
+            alertBox.classList.remove('d-none');
+          }
+        }, 500);
+      });
+    });
+  </script>
+</body>
+</html>

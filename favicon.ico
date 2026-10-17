@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0ea5e9" />
+      <stop offset="100%" stop-color="#1e3a8a" />
+    </linearGradient>
+  </defs>
+  <rect width="100" height="100" rx="20" fill="url(#grad)" />
+  <!-- Car silhouette / speedometer symbol -->
+  <path d="M20 62 L30 40 Q35 34 45 34 L65 34 Q75 34 80 44 L88 62 Q90 66 84 66 L82 66 A8 8 0 0 1 66 66 L34 66 A8 8 0 0 1 18 66 Q14 66 20 62 Z" fill="#ffffff" />
+  <circle cx="28" cy="66" r="6" fill="#0b2545" />
+  <circle cx="72" cy="66" r="6" fill="#0b2545" />
+</svg>

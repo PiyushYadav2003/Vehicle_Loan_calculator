@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vehicle Loan EMI Calculator | Car, Bike & Commercial Loans</title>
+  <meta name="description" content="Calculate your vehicle loan monthly EMI, total interest, and repayment amount in Indian Rupees (₹) with interactive charts and amortization schedule.">
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <!-- Custom Modern Banking Style -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Academic Demo Top Banner -->
+  <aside class="academic-notice-banner" aria-label="Academic project notice">
+    <div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
+      <div>
+        <i class="bi bi-mortarboard-fill me-1 text-warning"></i>
+        <strong>College Demonstration Project:</strong> Financial Computing Engine &amp; Chart.js Integration
+      </div>
+      <div>
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle">
+          Standard Reducing Balance EMI Formula
+        </span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Navbar -->
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-custom">
+      <div class="container">
+        <a class="navbar-brand" href="index.html">
+          <div class="brand-icon">
+            <i class="bi bi-speedometer2"></i>
+          </div>
+          <span>AutoLoan<span style="color: var(--accent-blue-400);">Calc</span></span>
+        </a>
+
+        <button class="navbar-toggler text-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navContent" aria-controls="navContent" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="bi bi-list fs-2"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">
+                <i class="bi bi-house-door me-1"></i> Home
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="calculator.html">
+                <i class="bi bi-calculator me-1"></i> EMI Calculator
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="history.html">
+                <i class="bi bi-clock-history me-1"></i> Loan History
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">
+                <i class="bi bi-info-circle me-1"></i> About
+              </a>
+            </li>
+          </ul>
+
+          <div id="navbarAuthArea" class="d-flex align-items-center"></div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="py-4">
+    <div class="container">
+      <!-- Page Header -->
+      <div class="row align-items-center mb-4">
+        <div class="col-md-8">
+          <h1 class="h2 fw-bold text-dark mb-1">
+            <i class="bi bi-calculator text-primary me-2"></i>Vehicle Loan EMI Calculator
+          </h1>
+          <p class="text-muted mb-0">
+            Customize your vehicle price, down payment, interest rate, and tenure to visualize your exact repayment plan.
+          </p>
+        </div>
+        <div class="col-md-4 text-md-end mt-3 mt-md-0 no-print">
+          <button type="button" class="btn btn-outline-secondary btn-sm me-2" id="resetCalcBtn" title="Reset all fields to defaults">
+            <i class="bi bi-arrow-counterclockwise me-1"></i> Reset Fields
+          </button>
+          <button type="button" class="btn btn-secondary-custom btn-sm" onclick="window.print()" title="Print Loan Quote">
+            <i class="bi bi-printer me-1"></i> Print Quote
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Error / Validation Alert Banner -->
+      <div id="calculatorAlertBox" class="alert alert-danger d-none py-2 px-3 mb-4 rounded-3" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        <span id="calculatorAlertMessage">Invalid input values</span>
+      </div>
+
+      <!-- Main Calculator Grid -->
+      <div class="row g-4">
+        <!-- Left Column: Inputs & Sliders -->
+        <div class="col-lg-7">
+          <div class="calculator-container h-100">
+            <div class="calc-section-header d-flex justify-content-between align-items-center">
+              <div>
+                <h5 class="fw-bold mb-0 text-dark">Loan Parameters</h5>
+                <small class="text-muted">Enter vehicle &amp; financing specifications</small>
+              </div>
+              <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1">
+                Indian Rupee (₹)
+              </span>
+            </div>
+
+            <div class="calc-body">
+              <form id="calculatorForm" novalidate>
+                <!-- 1. Vehicle Type Selector -->
+                <div class="mb-4">
+                  <label class="form-label fw-bold text-dark small mb-2">Select Vehicle Type</label>
+                  <div class="row g-2">
+                    <div class="col-4">
+                      <input type="radio" class="btn-check" name="vehicleTypeRadio" id="vTypeCar" value="car" checked autocomplete="off">
+                      <label class="btn btn-outline-primary w-100 py-2 d-flex flex-column align-items-center gap-1" for="vTypeCar">
+                        <i class="bi bi-car-front-fill fs-4"></i>
+                        <span class="fw-semibold small">Car Loan</span>
+                      </label>
+                    </div>
+                    <div class="col-4">
+                      <input type="radio" class="btn-check" name="vehicleTypeRadio" id="vTypeBike" value="bike" autocomplete="off">
+                      <label class="btn btn-outline-primary w-100 py-2 d-flex flex-column align-items-center gap-1" for="vTypeBike">
+                        <i class="bi bi-bicycle fs-4"></i>
+                        <span class="fw-semibold small">Bike Loan</span>
+                      </label>
+                    </div>
+                    <div class="col-4">
+                      <input type="radio" class="btn-check" name="vehicleTypeRadio" id="vTypeOther" value="other" autocomplete="off">
+                      <label class="btn btn-outline-primary w-100 py-2 d-flex flex-column align-items-center gap-1" for="vTypeOther">
+                        <i class="bi bi-truck-front-fill fs-4"></i>
+                        <span class="fw-semibold small">Commercial</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 2. Vehicle Price -->
+                <div class="range-group">
+                  <div class="range-label-wrap">
+                    <label for="vehiclePriceInput" class="range-label">
+                      <i class="bi bi-tag-fill text-primary"></i> Vehicle On-Road Price
+                    </label>
+                    <span class="text-muted small">Max: ₹1 Crore</span>
+                  </div>
+                  <div class="calc-input-wrapper">
+                    <span class="currency-symbol-addon">₹</span>
+                    <input type="number" class="form-control calc-number-input" id="vehiclePriceInput" min="10000" max="10000000" step="5000" value="850000">
+                  </div>
+                  <input type="range" class="custom-range-slider" id="vehiclePriceSlider" min="50000" max="5000000" step="10000" value="850000">
+                  <!-- Quick chips -->
+                  <div class="chips-group no-print">
+                    <span class="quick-chip" data-set-price="150000">₹1.5 Lakh</span>
+                    <span class="quick-chip" data-set-price="500000">₹5 Lakh</span>
+                    <span class="quick-chip" data-set-price="850000">₹8.5 Lakh</span>
+                    <span class="quick-chip" data-set-price="1500000">₹15 Lakh</span>
+                    <span class="quick-chip" data-set-price="2500000">₹25 Lakh</span>
+                    <span class="quick-chip" data-set-price="5000000">₹50 Lakh</span>
+                  </div>
+                </div>
+
+                <!-- 3. Down Payment -->
+                <div class="range-group">
+                  <div class="range-label-wrap">
+                    <label for="downPaymentInput" class="range-label">
+                      <i class="bi bi-wallet-fill text-success"></i> Down Payment
+                      <span id="dpPercentBadge" class="badge bg-success-subtle text-success ms-2">20% of price</span>
+                    </label>
+                    <span class="text-muted small" id="netPrincipalPreview">Principal: ₹6,80,000</span>
+                  </div>
+                  <div class="calc-input-wrapper">
+                    <span class="currency-symbol-addon">₹</span>
+                    <input type="number" class="form-control calc-number-input" id="downPaymentInput" min="0" max="850000" step="5000" value="170000">
+                  </div>
+                  <input type="range" class="custom-range-slider" id="downPaymentSlider" min="0" max="850000" step="5000" value="170000">
+                  <!-- Quick DP % chips -->
+                  <div class="chips-group no-print">
+                    <span class="quick-chip" data-set-dp-pct="0">0% (Zero Down)</span>
+                    <span class="quick-chip" data-set-dp-pct="10">10%</span>
+                    <span class="quick-chip" data-set-dp-pct="20">20% (Recommended)</span>
+                    <span class="quick-chip" data-set-dp-pct="30">30%</span>
+                    <span class="quick-chip" data-set-dp-pct="50">50%</span>
+                  </div>
+                </div>
+
+                <!-- 4. Annual Interest Rate -->
+                <div class="range-group">
+                  <div class="range-label-wrap">
+                    <label for="interestRateInput" class="range-label">
+                      <i class="bi bi-percent text-warning"></i> Annual Interest Rate (% p.a.)
+                    </label>
+                    <span class="text-muted small" id="monthlyRatePreview">0.73% / month</span>
+                  </div>
+                  <div class="input-group">
+                    <input type="number" class="form-control calc-number-input" id="interestRateInput" min="0" max="25" step="0.05" value="8.75" style="padding-left: 1rem;">
+                    <span class="input-group-text bg-white fw-bold">% p.a.</span>
+                  </div>
+                  <input type="range" class="custom-range-slider" id="interestRateSlider" min="0" max="20" step="0.05" value="8.75">
+                  <div class="chips-group no-print">
+                    <span class="quick-chip" data-set-rate="0">0% (Zero Interest Scheme)</span>
+                    <span class="quick-chip" data-set-rate="8.5">8.5% (Car Prime)</span>
+                    <span class="quick-chip" data-set-rate="9.5">9.5%</span>
+                    <span class="quick-chip" data-set-rate="10.5">10.5% (Bike Prime)</span>
+                    <span class="quick-chip" data-set-rate="12.0">12.0%</span>
+                  </div>
+                </div>
+
+                <!-- 5. Loan Tenure -->
+                <div class="range-group mb-4">
+                  <div class="range-label-wrap">
+                    <label class="range-label">
+                      <i class="bi bi-calendar3 text-info"></i> Loan Tenure
+                    </label>
+                    <!-- Toggle Years / Months -->
+                    <div class="btn-group btn-group-sm" role="group">
+                      <input type="radio" class="btn-check" name="tenureMode" id="tenureModeYears" value="years" checked autocomplete="off">
+                      <label class="btn btn-outline-secondary" for="tenureModeYears">Years</label>
+
+                      <input type="radio" class="btn-check" name="tenureMode" id="tenureModeMonths" value="months" autocomplete="off">
+                      <label class="btn btn-outline-secondary" for="tenureModeMonths">Months</label>
+                    </div>
+                  </div>
+
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="input-group" style="max-width: 170px;">
+                      <input type="number" class="form-control calc-number-input" id="tenureInput" min="1" max="10" step="0.5" value="5" style="padding-left: 1rem;">
+                      <span class="input-group-text bg-white fw-bold" id="tenureUnitLabel">Years</span>
+                    </div>
+                    <div class="text-muted small">
+                      Equivalent to <strong id="tenureMonthsEquivalent" class="text-dark">60 Months</strong>
+                    </div>
+                  </div>
+
+                  <input type="range" class="custom-range-slider" id="tenureSlider" min="1" max="10" step="0.5" value="5">
+
+                  <div class="chips-group no-print">
+                    <span class="quick-chip" data-set-tenure="1">1 Year</span>
+                    <span class="quick-chip" data-set-tenure="2">2 Years</span>
+                    <span class="quick-chip" data-set-tenure="3">3 Years</span>
+                    <span class="quick-chip" data-set-tenure="5">5 Years (Standard)</span>
+                    <span class="quick-chip" data-set-tenure="7">7 Years</span>
+                  </div>
+                </div>
+
+                <!-- Buttons: Calculate & Reset -->
+                <div class="d-flex flex-wrap gap-2 pt-2 border-top no-print">
+                  <button type="button" class="btn btn-primary-custom flex-grow-1" id="calculateEmiBtn">
+                    <i class="bi bi-check2-circle me-1"></i> Calculate EMI
+                  </button>
+                  <button type="button" class="btn btn-secondary-custom" id="saveHistoryBtn" title="Save this calculation to your personal history">
+                    <i class="bi bi-bookmark-plus me-1 text-primary"></i> Save to History
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Results & Interactive Chart -->
+        <div class="col-lg-5">
+          <div class="results-card">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <span class="badge bg-white text-dark fw-bold px-3 py-1 rounded-pill">
+                <i class="bi bi-check-circle-fill text-success me-1"></i> Loan Breakdown
+              </span>
+              <span id="resultsVehicleTypeBadge" class="small text-white-50">Car Loan</span>
+            </div>
+
+            <!-- Big Monthly EMI Display Box -->
+            <div class="emi-highlight-box">
+              <div class="text-white-50 small text-uppercase fw-semibold" style="letter-spacing: 0.05em;">Monthly Loan EMI</div>
+              <div class="emi-amount-display" id="resMonthlyEMI">₹14,034</div>
+              <small class="text-white-50" id="resEmiTenureNote">Payable every month for 60 months</small>
+            </div>
+
+            <!-- Chart.js Donut Visualization -->
+            <div class="chart-container-wrap">
+              <canvas id="loanChart"></canvas>
+            </div>
+
+            <!-- Chart Custom Legend -->
+            <div class="d-flex justify-content-center gap-4 text-center my-2">
+              <div>
+                <span class="d-inline-block rounded-circle me-1" style="width: 12px; height: 12px; background: #0ea5e9;"></span>
+                <small class="text-white-50">Principal: <strong id="chartPrincipalPct" class="text-white">80%</strong></small>
+              </div>
+              <div>
+                <span class="d-inline-block rounded-circle me-1" style="width: 12px; height: 12px; background: #f59e0b;"></span>
+                <small class="text-white-50">Interest: <strong id="chartInterestPct" class="text-white">20%</strong></small>
+              </div>
+            </div>
+
+            <!-- Metric Breakdown Details -->
+            <div class="mt-3">
+              <div class="breakdown-row">
+                <span class="breakdown-label"><i class="bi bi-cash-stack text-info"></i> Loan Principal Amount</span>
+                <span class="breakdown-val" id="resPrincipal">₹6,80,000</span>
+              </div>
+              <div class="breakdown-row">
+                <span class="breakdown-label"><i class="bi bi-percent text-warning"></i> Total Interest Payable</span>
+                <span class="breakdown-val text-warning" id="resTotalInterest">₹1,62,040</span>
+              </div>
+              <div class="breakdown-row">
+                <span class="breakdown-label"><i class="bi bi-wallet2 text-success"></i> Down Payment Paid</span>
+                <span class="breakdown-val" id="resDownPayment">₹1,70,000</span>
+              </div>
+              <div class="breakdown-row">
+                <span class="breakdown-label"><i class="bi bi-calculator-fill text-light"></i> Total Repayment (P + I)</span>
+                <span class="breakdown-val text-info" id="resTotalRepayment">₹8,42,040</span>
+              </div>
+              <div class="breakdown-row pt-2" style="border-top: 1px dashed rgba(255,255,255,0.2);">
+                <span class="breakdown-label fw-bold text-white"><i class="bi bi-shield-check"></i> Total Cost of Vehicle</span>
+                <span class="breakdown-val fw-bold text-white fs-6" id="resTotalCost">₹10,12,040</span>
+              </div>
+            </div>
+
+            <!-- Print / History Note for Guest -->
+            <div id="guestSavePrompt" class="mt-3 pt-2 text-center text-white-50 small border-top border-white-subtle">
+              <i class="bi bi-person-exclamation me-1"></i>
+              <a href="login.html?redirect=calculator.html" class="text-white text-decoration-underline">Sign in</a> to permanently record calculations in your account.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Amortization Schedule Accordion (Yearly & Monthly Breakdown) -->
+      <div class="row mt-5">
+        <div class="col-12">
+          <div class="card-modern p-4">
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+              <div>
+                <h4 class="fw-bold mb-1"><i class="bi bi-table text-primary me-2"></i>Loan Amortization Schedule</h4>
+                <p class="text-muted small mb-0">Detailed breakdown of how each installment splits between principal repayment and lender interest.</p>
+              </div>
+
+              <!-- View Mode Tabs (Yearly vs Monthly) -->
+              <ul class="nav nav-pills mt-2 mt-md-0" id="scheduleTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active btn-sm" id="yearly-tab" data-bs-toggle="pill" data-bs-target="#yearly-pane" type="button" role="tab">
+                    Yearly Summary
+                  </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link btn-sm" id="monthly-tab" data-bs-toggle="pill" data-bs-target="#monthly-pane" type="button" role="tab">
+                    Monthly Breakdown
+                  </button>
+                </li>
+              </ul>
+            </div>
+
+            <div class="tab-content" id="scheduleTabContent">
+              <!-- Yearly Summary Pane -->
+              <div class="tab-pane fade show active" id="yearly-pane" role="tabpanel">
+                <div class="table-custom-wrapper">
+                  <table class="table table-custom">
+                    <thead>
+                      <tr>
+                        <th>Year</th>
+                        <th>Principal Paid (A)</th>
+                        <th>Interest Paid (B)</th>
+                        <th>Total Payment (A + B)</th>
+                        <th>Ending Balance</th>
+                      </tr>
+                    </thead>
+                    <tbody id="yearlyScheduleTableBody">
+                      <!-- Rendered via JavaScript -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Monthly Breakdown Pane -->
+              <div class="tab-pane fade" id="monthly-pane" role="tabpanel">
+                <div class="table-custom-wrapper" style="max-height: 400px; overflow-y: auto;">
+                  <table class="table table-custom">
+                    <thead style="position: sticky; top: 0; z-index: 2;">
+                      <tr>
+                        <th>Month</th>
+                        <th>Beginning Balance</th>
+                        <th>Monthly EMI</th>
+                        <th>Principal Paid</th>
+                        <th>Interest Paid</th>
+                        <th>Remaining Balance</th>
+                      </tr>
+                    </thead>
+                    <tbody id="monthlyScheduleTableBody">
+                      <!-- Rendered via JavaScript -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modern Footer -->
+  <footer class="footer-custom">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-4 col-md-6">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <div class="brand-icon" style="width: 32px; height: 32px; font-size: 1rem;">
+              <i class="bi bi-speedometer2"></i>
+            </div>
+            <h5 class="mb-0 text-white fw-bold">AutoLoanCalc</h5>
+          </div>
+          <p class="small text-white-50">
+            A client-side financial simulator implementing the reducing balance EMI algorithm with real-time Chart.js rendering and LocalStorage persistence.
+          </p>
+        </div>
+        <div class="col-lg-2 col-md-3 col-6">
+          <h5>Quick Links</h5>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="calculator.html">EMI Calculator</a></li>
+            <li><a href="history.html">Loan History</a></li>
+            <li><a href="about.html">About &amp; Formulas</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-6 col-md-12">
+          <h5>Academic Note</h5>
+          <p class="small text-white-50">
+            All calculations are executed locally in vanilla JavaScript. For viva examination, refer to the mathematical formula documentation in the <a href="about.html" class="text-info">About page</a>.
+          </p>
+        </div>
+      </div>
+      <div class="footer-bottom text-center">
+        &copy; 2026 Vehicle Loan Calculator Project. College Web Technology Demonstration.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Modular Scripts -->
+  <script src="js/auth.js"></script>
+  <script src="js/calculator.js"></script>
+  <script src="js/main.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Elements
+      const priceInput = document.getElementById('vehiclePriceInput');
+      const priceSlider = document.getElementById('vehiclePriceSlider');
+      const dpInput = document.getElementById('downPaymentInput');
+      const dpSlider = document.getElementById('downPaymentSlider');
+      const dpPercentBadge = document.getElementById('dpPercentBadge');
+      const netPrincipalPreview = document.getElementById('netPrincipalPreview');
+      const rateInput = document.getElementById('interestRateInput');
+      const rateSlider = document.getElementById('interestRateSlider');
+      const monthlyRatePreview = document.getElementById('monthlyRatePreview');
+      const tenureInput = document.getElementById('tenureInput');
+      const tenureSlider = document.getElementById('tenureSlider');
+      const tenureUnitLabel = document.getElementById('tenureUnitLabel');
+      const tenureMonthsEq = document.getElementById('tenureMonthsEquivalent');
+      const tenureModeYears = document.getElementById('tenureModeYears');
+      const tenureModeMonths = document.getElementById('tenureModeMonths');
+      const alertBox = document.getElementById('calculatorAlertBox');
+      const alertMsg = document.getElementById('calculatorAlertMessage');
+
+      const calcBtn = document.getElementById('calculateEmiBtn');
+      const resetBtn = document.getElementById('resetCalcBtn');
+      const saveHistoryBtn = document.getElementById('saveHistoryBtn');
+
+      // Results Display Elements
+      const resMonthlyEMI = document.getElementById('resMonthlyEMI');
+      const resEmiTenureNote = document.getElementById('resEmiTenureNote');
+      const resPrincipal = document.getElementById('resPrincipal');
+      const resTotalInterest = document.getElementById('resTotalInterest');
+      const resDownPayment = document.getElementById('resDownPayment');
+      const resTotalRepayment = document.getElementById('resTotalRepayment');
+      const resTotalCost = document.getElementById('resTotalCost');
+      const chartPrincipalPct = document.getElementById('chartPrincipalPct');
+      const chartInterestPct = document.getElementById('chartInterestPct');
+      const resultsVehicleTypeBadge = document.getElementById('resultsVehicleTypeBadge');
+      const guestPrompt = document.getElementById('guestSavePrompt');
+
+      // State
+      let currentVehicleType = 'car';
+      let tenureInMonths = 60;
+      let lastCalcResult = null;
+
+      // Check current user session for guest prompt
+      const user = getCurrentUser();
+      if (user && guestPrompt) {
+        guestPrompt.innerHTML = `<i class="bi bi-person-check text-success me-1"></i> Logged in as <strong>${user.name}</strong>. Calculations can be saved to your history.`;
+      }
+
+      // Check URL Query Parameters (e.g. from history page or homepage presets)
+      const urlParams = new URLSearchParams(window.location.search);
+      const paramType = urlParams.get('type');
+      const paramPrice = urlParams.get('price');
+      const paramDp = urlParams.get('dp');
+      const paramRate = urlParams.get('rate');
+      const paramTenure = urlParams.get('tenure');
+
+      if (paramType) {
+        currentVehicleType = paramType.toLowerCase();
+        const radio = document.querySelector(`input[name="vehicleTypeRadio"][value="${currentVehicleType}"]`);
+        if (radio) radio.checked = true;
+      }
+      if (paramPrice) {
+        priceInput.value = paramPrice;
+        priceSlider.value = paramPrice;
+      }
+      if (paramDp) {
+        dpInput.value = paramDp;
+        dpSlider.value = paramDp;
+      }
+      if (paramRate) {
+        rateInput.value = paramRate;
+        rateSlider.value = paramRate;
+      }
+      if (paramTenure) {
+        tenureInMonths = parseInt(paramTenure);
+        if (tenureModeYears.checked) {
+          tenureInput.value = (tenureInMonths / 12).toFixed(1);
+          tenureSlider.value = (tenureInMonths / 12).toFixed(1);
+        } else {
+          tenureInput.value = tenureInMonths;
+          tenureSlider.value = tenureInMonths;
+        }
+      }
+
+      // Vehicle Type Radio Change
+      const vehicleRadios = document.querySelectorAll('input[name="vehicleTypeRadio"]');
+      vehicleRadios.forEach(radio => {
+        radio.addEventListener('change', (e) => {
+          currentVehicleType = e.target.value;
+          const preset = VEHICLE_PRESETS[currentVehicleType];
+          if (preset && !paramPrice) {
+            priceInput.value = preset.price;
+            priceSlider.value = preset.price;
+            const newDp = (preset.price * preset.dpPercent) / 100;
+            dpInput.value = newDp;
+            dpSlider.value = newDp;
+            rateInput.value = preset.rate;
+            rateSlider.value = preset.rate;
+            tenureInput.value = preset.tenureYears;
+            tenureSlider.value = preset.tenureYears;
+            tenureModeYears.checked = true;
+            updateTenureUnit();
+          }
+          performCalculation();
+        });
+      });
+
+      // Synchronize Price Input & Slider
+      priceInput.addEventListener('input', () => {
+        const val = parseNumber(priceInput.value);
+        priceSlider.max = Math.max(val, 5000000);
+        priceSlider.value = val;
+        // Update down payment max
+        dpSlider.max = val;
+        dpInput.max = val;
+        updateDpPercentagePreview();
+        performCalculation();
+      });
+
+      priceSlider.addEventListener('input', () => {
+        priceInput.value = priceSlider.value;
+        dpSlider.max = priceSlider.value;
+        dpInput.max = priceSlider.value;
+        updateDpPercentagePreview();
+        performCalculation();
+      });
+
+      // Quick Price Chips
+      document.querySelectorAll('[data-set-price]').forEach(chip => {
+        chip.addEventListener('click', () => {
+          const val = Number(chip.dataset.setPrice);
+          priceInput.value = val;
+          priceSlider.value = val;
+          dpSlider.max = val;
+          dpInput.max = val;
+          // Set DP to 20%
+          const newDp = Math.round(val * 0.2);
+          dpInput.value = newDp;
+          dpSlider.value = newDp;
+          updateDpPercentagePreview();
+          performCalculation();
+        });
+      });
+
+      // Synchronize Down Payment Input & Slider
+      dpInput.addEventListener('input', () => {
+        const val = parseNumber(dpInput.value);
+        dpSlider.value = val;
+        updateDpPercentagePreview();
+        performCalculation();
+      });
+
+      dpSlider.addEventListener('input', () => {
+        dpInput.value = dpSlider.value;
+        updateDpPercentagePreview();
+        performCalculation();
+      });
+
+      // Quick DP % Chips
+      document.querySelectorAll('[data-set-dp-pct]').forEach(chip => {
+        chip.addEventListener('click', () => {
+          const pct = Number(chip.dataset.setDpPct);
+          const price = parseNumber(priceInput.value);
+          const newDp = Math.round((price * pct) / 100);
+          dpInput.value = newDp;
+          dpSlider.value = newDp;
+          updateDpPercentagePreview();
+          performCalculation();
+        });
+      });
+
+      // Synchronize Interest Rate Input & Slider
+      rateInput.addEventListener('input', () => {
+        rateSlider.value = rateInput.value;
+        updateMonthlyRatePreview();
+        performCalculation();
+      });
+
+      rateSlider.addEventListener('input', () => {
+        rateInput.value = rateSlider.value;
+        updateMonthlyRatePreview();
+        performCalculation();
+      });
+
+      // Quick Rate Chips
+      document.querySelectorAll('[data-set-rate]').forEach(chip => {
+        chip.addEventListener('click', () => {
+          const rate = chip.dataset.setRate;
+          rateInput.value = rate;
+          rateSlider.value = rate;
+          updateMonthlyRatePreview();
+          performCalculation();
+        });
+      });
+
+      // Tenure Mode (Years vs Months)
+      function updateTenureUnit() {
+        if (tenureModeYears.checked) {
+          tenureUnitLabel.textContent = 'Years';
+          tenureSlider.min = 1;
+          tenureSlider.max = 10;
+          tenureSlider.step = 0.5;
+        } else {
+          tenureUnitLabel.textContent = 'Months';
+          tenureSlider.min = 6;
+          tenureSlider.max = 120;
+          tenureSlider.step = 1;
+        }
+      }
+
+      tenureModeYears.addEventListener('change', () => {
+        updateTenureUnit();
+        const years = (tenureInMonths / 12).toFixed(1);
+        tenureInput.value = years;
+        tenureSlider.value = years;
+        performCalculation();
+      });
+
+      tenureModeMonths.addEventListener('change', () => {
+        updateTenureUnit();
+        tenureInput.value = tenureInMonths;
+        tenureSlider.value = tenureInMonths;
+        performCalculation();
+      });
+
+      // Tenure Input & Slider
+      tenureInput.addEventListener('input', () => {
+        tenureSlider.value = tenureInput.value;
+        syncTenureMonths();
+        performCalculation();
+      });
+
+      tenureSlider.addEventListener('input', () => {
+        tenureInput.value = tenureSlider.value;
+        syncTenureMonths();
+        performCalculation();
+      });
+
+      // Quick Tenure Chips
+      document.querySelectorAll('[data-set-tenure]').forEach(chip => {
+        chip.addEventListener('click', () => {
+          const years = Number(chip.dataset.setTenure);
+          tenureModeYears.checked = true;
+          updateTenureUnit();
+          tenureInput.value = years;
+          tenureSlider.value = years;
+          syncTenureMonths();
+          performCalculation();
+        });
+      });
+
+      function syncTenureMonths() {
+        const val = parseFloat(tenureInput.value) || 0;
+        if (tenureModeYears.checked) {
+          tenureInMonths = Math.round(val * 12);
+          tenureMonthsEq.textContent = `${tenureInMonths} Months`;
+        } else {
+          tenureInMonths = Math.round(val);
+          const yrs = (tenureInMonths / 12).toFixed(1);
+          tenureMonthsEq.textContent = `${yrs} Years (${tenureInMonths} Mos)`;
+        }
+      }
+
+      function updateDpPercentagePreview() {
+        const price = parseNumber(priceInput.value);
+        const dp = parseNumber(dpInput.value);
+        if (price > 0) {
+          const pct = Math.round((dp / price) * 100);
+          dpPercentBadge.textContent = `${pct}% of price`;
+          const principal = Math.max(0, price - dp);
+          netPrincipalPreview.textContent = `Principal: ${formatINR(principal)}`;
+        }
+      }
+
+      function updateMonthlyRatePreview() {
+        const rate = parseFloat(rateInput.value) || 0;
+        const mRate = (rate / 12).toFixed(2);
+        monthlyRatePreview.textContent = `${mRate}% / month`;
+      }
+
+      // Calculation Handler
+      function performCalculation() {
+        syncTenureMonths();
+        alertBox.classList.add('d-none');
+
+        const price = parseNumber(priceInput.value);
+        const dp = parseNumber(dpInput.value);
+        const rate = parseFloat(rateInput.value);
+        const months = tenureInMonths;
+
+        // Validation for Down Payment > Price
+        if (dp > price) {
+          alertMsg.textContent = `Down payment (${formatINR(dp)}) cannot exceed the total vehicle price (${formatINR(price)})!`;
+          alertBox.classList.remove('d-none');
+          return;
+        }
+
+        if (price <= 0) {
+          alertMsg.textContent = 'Please enter a valid vehicle price greater than ₹0.';
+          alertBox.classList.remove('d-none');
+          return;
+        }
+
+        if (months <= 0) {
+          alertMsg.textContent = 'Loan tenure must be at least 1 month.';
+          alertBox.classList.remove('d-none');
+          return;
+        }
+
+        const res = calculateLoanDetails(price, dp, rate, months);
+
+        if (res.error) {
+          alertMsg.textContent = res.error;
+          alertBox.classList.remove('d-none');
+          return;
+        }
+
+        // Attach vehicle type to result
+        res.vehicleType = currentVehicleType.toUpperCase();
+        lastCalcResult = res;
+
+        // Update UI Displays
+        resMonthlyEMI.textContent = formatINR(res.monthlyEMI);
+        resEmiTenureNote.textContent = res.principal === 0 
+          ? 'No loan required (100% Down Payment)'
+          : `Payable every month for ${res.totalMonths} months (${(res.totalMonths / 12).toFixed(1)} yrs)`;
+
+        resPrincipal.textContent = formatINR(res.principal);
+        resTotalInterest.textContent = formatINR(res.totalInterest);
+        resDownPayment.textContent = `${formatINR(res.downPayment)} (${price > 0 ? Math.round((dp/price)*100) : 0}%)`;
+        resTotalRepayment.textContent = formatINR(res.totalRepayment);
+        resTotalCost.textContent = formatINR(res.totalCost);
+
+        // Vehicle badge update
+        const typeNames = { car: 'Car Loan', bike: 'Two-Wheeler Loan', other: 'Commercial Loan' };
+        resultsVehicleTypeBadge.textContent = typeNames[currentVehicleType] || 'Vehicle Loan';
+
+        // Percentage calculations for Chart Legend
+        const totalLoanPortion = res.principal + res.totalInterest;
+        if (totalLoanPortion > 0) {
+          const principalPct = Math.round((res.principal / totalLoanPortion) * 100);
+          const interestPct = 100 - principalPct;
+          chartPrincipalPct.textContent = `${principalPct}%`;
+          chartInterestPct.textContent = `${interestPct}%`;
+        } else {
+          chartPrincipalPct.textContent = '100%';
+          chartInterestPct.textContent = '0%';
+        }
+
+        // Render Chart.js
+        renderLoanChart(res.principal, res.totalInterest);
+
+        // Generate and Render Amortization Schedules
+        renderAmortizationTables(res.principal, res.annualRate, res.totalMonths, res.monthlyEMI);
+      }
+
+      // Render Amortization Schedule Tables
+      function renderAmortizationTables(principal, rate, months, emi) {
+        const schedule = generateAmortizationSchedule(principal, rate, months, emi);
+        const yearlyBody = document.getElementById('yearlyScheduleTableBody');
+        const monthlyBody = document.getElementById('monthlyScheduleTableBody');
+
+        if (yearlyBody) {
+          if (schedule.yearly.length === 0 || principal === 0) {
+            yearlyBody.innerHTML = `<tr><td colspan="5" class="text-center py-3 text-muted">No schedule to display (Zero loan amount).</td></tr>`;
+          } else {
+            yearlyBody.innerHTML = schedule.yearly.map(y => `
+              <tr>
+                <td class="fw-bold text-dark">Year ${y.year}</td>
+                <td class="text-primary fw-semibold">${formatINR(y.principalPaid)}</td>
+                <td class="text-warning fw-semibold">${formatINR(y.interestPaid)}</td>
+                <td class="fw-bold">${formatINR(y.totalPaid)}</td>
+                <td class="fw-semibold text-muted">${formatINR(y.endingBalance)}</td>
+              </tr>
+            `).join('');
+          }
+        }
+
+        if (monthlyBody) {
+          if (schedule.monthly.length === 0 || principal === 0) {
+            monthlyBody.innerHTML = `<tr><td colspan="6" class="text-center py-3 text-muted">No schedule to display (Zero loan amount).</td></tr>`;
+          } else {
+            monthlyBody.innerHTML = schedule.monthly.map(m => `
+              <tr>
+                <td class="fw-bold text-dark">Month ${m.month}</td>
+                <td>${formatINR(m.beginningBalance)}</td>
+                <td class="fw-bold text-primary">${formatINR(m.emi)}</td>
+                <td class="text-info">${formatINR(m.principalPaid)}</td>
+                <td class="text-warning">${formatINR(m.interestPaid)}</td>
+                <td class="fw-semibold text-muted">${formatINR(m.endingBalance)}</td>
+              </tr>
+            `).join('');
+          }
+        }
+      }
+
+      // Calculate Button Click
+      calcBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        performCalculation();
+        showToast('EMI and loan amortization recalculated successfully!', 'success');
+      });
+
+      // Reset Button Click
+      resetBtn.addEventListener('click', () => {
+        const preset = VEHICLE_PRESETS[currentVehicleType] || VEHICLE_PRESETS.car;
+        priceInput.value = preset.price;
+        priceSlider.value = preset.price;
+        const newDp = (preset.price * preset.dpPercent) / 100;
+        dpInput.value = newDp;
+        dpSlider.value = newDp;
+        rateInput.value = preset.rate;
+        rateSlider.value = preset.rate;
+        tenureModeYears.checked = true;
+        updateTenureUnit();
+        tenureInput.value = preset.tenureYears;
+        tenureSlider.value = preset.tenureYears;
+        updateDpPercentagePreview();
+        updateMonthlyRatePreview();
+        performCalculation();
+        showToast('Calculator fields reset to default values.', 'info');
+      });
+
+      // Save to History Button
+      saveHistoryBtn.addEventListener('click', () => {
+        if (!lastCalcResult) {
+          showToast('Please perform a calculation first.', 'warning');
+          return;
+        }
+
+        const saved = saveCalculationToHistory(lastCalcResult);
+        if (saved) {
+          showToast('Loan calculation saved to your history!', 'success');
+        }
+      });
+
+      // Initial execution
+      updateDpPercentagePreview();
+      updateMonthlyRatePreview();
+      updateTenureUnit();
+      performCalculation();
+    });
+  </script>
+</body>
+</html>

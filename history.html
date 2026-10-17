@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loan Calculation History | Vehicle Loan Calculator</title>
+  <meta name="description" content="View and manage your saved vehicle loan calculations, compare previous EMI estimates, and recalculate with a single click.">
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Custom Modern Banking Style -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Academic Demo Disclaimer Top Bar -->
+  <aside class="academic-notice-banner" aria-label="Academic project notice">
+    <div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
+      <div>
+        <i class="bi bi-mortarboard-fill me-1 text-warning"></i>
+        <strong>College Demonstration Project:</strong> User-Isolated LocalStorage Persistence
+      </div>
+      <div>
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle">
+          Client-Side Storage Isolation
+        </span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Navbar -->
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-custom">
+      <div class="container">
+        <a class="navbar-brand" href="index.html">
+          <div class="brand-icon">
+            <i class="bi bi-speedometer2"></i>
+          </div>
+          <span>AutoLoan<span style="color: var(--accent-blue-400);">Calc</span></span>
+        </a>
+
+        <button class="navbar-toggler text-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navContent" aria-controls="navContent" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="bi bi-list fs-2"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">
+                <i class="bi bi-house-door me-1"></i> Home
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="calculator.html">
+                <i class="bi bi-calculator me-1"></i> EMI Calculator
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="history.html">
+                <i class="bi bi-clock-history me-1"></i> Loan History
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">
+                <i class="bi bi-info-circle me-1"></i> About
+              </a>
+            </li>
+          </ul>
+
+          <div id="navbarAuthArea" class="d-flex align-items-center"></div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="py-4">
+    <div class="container">
+      <!-- Breadcrumb & Header -->
+      <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+        <div>
+          <h1 class="h2 fw-bold text-dark mb-1">
+            <i class="bi bi-clock-history text-primary me-2"></i>Calculation History
+          </h1>
+          <p class="text-muted mb-0">
+            Review, compare, and re-estimate your saved vehicle financing calculations.
+          </p>
+        </div>
+
+        <div class="d-flex align-items-center gap-2">
+          <a href="calculator.html" class="btn btn-primary-custom btn-sm">
+            <i class="bi bi-plus-circle me-1"></i> New Calculation
+          </a>
+          <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#clearHistoryModal" id="openClearHistoryModalBtn">
+            <i class="bi bi-trash3 me-1"></i> Clear All History
+          </button>
+        </div>
+      </div>
+
+      <!-- User Context Alert -->
+      <div class="card-modern p-3 mb-4 bg-light d-flex flex-row align-items-center justify-content-between flex-wrap gap-2">
+        <div class="d-flex align-items-center gap-2">
+          <i class="bi bi-person-badge-fill text-primary fs-5"></i>
+          <div>
+            <span class="small text-muted">Showing isolated records for:</span>
+            <strong id="historyUserEmailLabel" class="text-dark">User</strong>
+          </div>
+        </div>
+        <div>
+          <span class="badge bg-primary rounded-pill px-3 py-2" id="historyTotalCount">0 Saved</span>
+        </div>
+      </div>
+
+      <!-- Controls: Filter & Sort Bar -->
+      <div class="card-modern p-3 mb-4">
+        <div class="row g-3 align-items-center">
+          <div class="col-md-5">
+            <label for="filterVehicleType" class="form-label small fw-bold text-muted mb-1">
+              <i class="bi bi-funnel me-1"></i> Filter by Vehicle Category
+            </label>
+            <select class="form-select form-select-sm" id="filterVehicleType">
+              <option value="all" selected>All Categories (Cars, Bikes, Commercial)</option>
+              <option value="car">Car Loans Only</option>
+              <option value="bike">Two-Wheeler Loans Only</option>
+              <option value="other">Commercial &amp; Other</option>
+            </select>
+          </div>
+
+          <div class="col-md-5">
+            <label for="sortHistoryOrder" class="form-label small fw-bold text-muted mb-1">
+              <i class="bi bi-arrow-down-up me-1"></i> Sort Records By
+            </label>
+            <select class="form-select form-select-sm" id="sortHistoryOrder">
+              <option value="newest" selected>Date: Newest First</option>
+              <option value="oldest">Date: Oldest First</option>
+              <option value="highest-emi">Monthly EMI: Highest First</option>
+              <option value="lowest-emi">Monthly EMI: Lowest First</option>
+            </select>
+          </div>
+
+          <div class="col-md-2 text-md-end pt-md-3">
+            <button type="button" class="btn btn-secondary-custom btn-sm w-100" onclick="window.print()">
+              <i class="bi bi-printer me-1"></i> Print
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- History Content Area -->
+      <div id="historyContentArea">
+        <div class="table-custom-wrapper">
+          <table class="table table-custom">
+            <thead>
+              <tr>
+                <th>Date &amp; ID</th>
+                <th>Category</th>
+                <th>Vehicle Price &amp; DP</th>
+                <th>Loan Principal</th>
+                <th>Interest Rate</th>
+                <th>Tenure</th>
+                <th>Monthly EMI</th>
+                <th class="text-end">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="historyTableBody">
+              <!-- Rendered via js/history.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Empty State View -->
+      <div id="historyEmptyState" class="card-modern p-5 text-center d-none">
+        <div class="mb-3 text-secondary">
+          <i class="bi bi-journal-x" style="font-size: 3.5rem; color: #94a3b8;"></i>
+        </div>
+        <h4 class="fw-bold mb-2 text-dark">No Calculation History Found</h4>
+        <p class="text-muted max-w-500 mx-auto mb-4">
+          You haven't saved any loan calculations yet. Use the Vehicle Loan EMI Calculator to estimate your monthly payments and click "Save to History".
+        </p>
+        <div>
+          <a href="calculator.html" class="btn btn-primary-custom">
+            <i class="bi bi-calculator me-1"></i> Calculate Your First Loan
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Clear History Confirmation Modal -->
+  <div class="modal fade" id="clearHistoryModal" tabindex="-1" aria-labelledby="clearHistoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg" style="border-radius: var(--radius-lg);">
+        <div class="modal-header bg-danger-subtle text-danger">
+          <h5 class="modal-title fw-bold" id="clearHistoryModalLabel">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i> Clear Loan History?
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4">
+          <p class="text-muted mb-0">
+            Are you sure you want to permanently clear all your saved loan calculation records? 
+            This action cannot be undone for your account.
+          </p>
+        </div>
+        <div class="modal-footer bg-light">
+          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-danger btn-sm" id="confirmClearHistoryBtn">
+            <i class="bi bi-trash3-fill me-1"></i> Yes, Clear All History
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modern Footer -->
+  <footer class="footer-custom">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-4 col-md-6">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <div class="brand-icon" style="width: 32px; height: 32px; font-size: 1rem;">
+              <i class="bi bi-speedometer2"></i>
+            </div>
+            <h5 class="mb-0 text-white fw-bold">AutoLoanCalc</h5>
+          </div>
+          <p class="small text-white-50">
+            Persistent calculation history module separating user records using key namespacing in client-side LocalStorage.
+          </p>
+        </div>
+        <div class="col-lg-2 col-md-3 col-6">
+          <h5>Navigation</h5>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="calculator.html">EMI Calculator</a></li>
+            <li><a href="history.html">Loan History</a></li>
+            <li><a href="about.html">About &amp; Formulas</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-6 col-md-12">
+          <h5>Viva Note</h5>
+          <p class="small text-white-50">
+            Each user's calculation history is keyed as <code class="text-info">vlc_history_{userEmail}</code> in LocalStorage, preventing collision across different simulated accounts on the same machine.
+          </p>
+        </div>
+      </div>
+      <div class="footer-bottom text-center">
+        &copy; 2026 Vehicle Loan Calculator Project. College Web Technology Demonstration.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Modular Scripts -->
+  <script src="js/auth.js"></script>
+  <script src="js/calculator.js"></script>
+  <script src="js/history.js"></script>
+  <script src="js/main.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Protect this page: redirect to login if unauthenticated
+      const user = requireAuth();
+      if (!user) return;
+
+      const userEmailLabel = document.getElementById('historyUserEmailLabel');
+      if (userEmailLabel) {
+        userEmailLabel.textContent = `${user.name} (${user.email})`;
+      }
+
+      // Initial Render
+      renderHistoryView();
+    });
+  </script>
+</body>
+</html>

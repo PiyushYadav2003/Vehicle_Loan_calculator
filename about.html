@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About & Mathematical Documentation | Vehicle Loan Calculator</title>
+  <meta name="description" content="Learn how the Vehicle Loan Calculator works, explore the reducing balance EMI formula with solved examples, and review our academic project technology architecture.">
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Custom Modern Banking Style -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Academic Demo Top Banner -->
+  <aside class="academic-notice-banner" aria-label="Academic project notice">
+    <div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
+      <div>
+        <i class="bi bi-mortarboard-fill me-1 text-warning"></i>
+        <strong>College Demonstration Project:</strong> Web Technology Viva &amp; Documentation
+      </div>
+      <div>
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle">
+          Academic Documentation
+        </span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Navbar -->
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-custom">
+      <div class="container">
+        <a class="navbar-brand" href="index.html">
+          <div class="brand-icon">
+            <i class="bi bi-speedometer2"></i>
+          </div>
+          <span>AutoLoan<span style="color: var(--accent-blue-400);">Calc</span></span>
+        </a>
+
+        <button class="navbar-toggler text-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navContent" aria-controls="navContent" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="bi bi-list fs-2"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">
+                <i class="bi bi-house-door me-1"></i> Home
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="calculator.html">
+                <i class="bi bi-calculator me-1"></i> EMI Calculator
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="history.html">
+                <i class="bi bi-clock-history me-1"></i> Loan History
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="about.html">
+                <i class="bi bi-info-circle me-1"></i> About
+              </a>
+            </li>
+          </ul>
+
+          <div id="navbarAuthArea" class="d-flex align-items-center"></div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="py-5">
+    <div class="container">
+      <!-- Hero Banner -->
+      <div class="card-modern p-5 mb-5 bg-white text-center border-0 shadow-sm position-relative overflow-hidden">
+        <span class="badge bg-primary-subtle text-primary px-3 py-1 rounded-pill fw-semibold mb-3">
+          Academic Architecture &amp; Mathematical Specifications
+        </span>
+        <h1 class="display-5 fw-bold text-dark mb-3">About the Vehicle Loan Calculator</h1>
+        <p class="text-muted lead max-w-700 mx-auto mb-4">
+          A modern, client-side financial simulator engineered to deliver transparent, instant, and visual auto financing estimations for Indian vehicle buyers and banking students.
+        </p>
+        <div class="d-flex justify-content-center gap-3">
+          <a href="#math-formula" class="btn btn-primary-custom">
+            <i class="bi bi-calculator-fill me-1"></i> View Mathematical Formula
+          </a>
+          <a href="#tech-stack" class="btn btn-secondary-custom">
+            <i class="bi bi-cpu me-1"></i> Technology Stack
+          </a>
+        </div>
+      </div>
+
+      <!-- Section 1: Project Purpose & Mission -->
+      <div class="row g-4 mb-5 align-items-center">
+        <div class="col-lg-6">
+          <h2 class="h3 fw-bold text-dark mb-3">
+            <i class="bi bi-bullseye text-primary me-2"></i>Purpose of the Project
+          </h2>
+          <p class="text-muted">
+            Purchasing a vehicle—whether a daily commuter two-wheeler, a family car, or a commercial logistics truck—is one of the most significant financial commitments an individual or business makes.
+          </p>
+          <p class="text-muted">
+            The <strong>Vehicle Loan Calculator</strong> bridges the information gap between dealership sales jargon and real borrower out-of-pocket costs. By empowering users to test various combinations of down payments, loan tenures, and interest rates, it prevents predatory dealer markups and helps borrowers discover the exact monthly EMI that suits their household budget.
+          </p>
+          <div class="row g-3 mt-2">
+            <div class="col-6">
+              <div class="border rounded p-3 bg-light">
+                <h4 class="h5 fw-bold text-dark mb-1">100% Client-Side</h4>
+                <small class="text-muted">Zero latency calculations running entirely in vanilla JavaScript.</small>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="border rounded p-3 bg-light">
+                <h4 class="h5 fw-bold text-dark mb-1">Zero Backend</h4>
+                <small class="text-muted">No external server dependencies or cloud database required.</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="card-modern p-4 bg-light border">
+            <h4 class="h5 fw-bold mb-3"><i class="bi bi-stars text-warning me-2"></i>Key Benefits of Calculating Early</h4>
+            <ul class="list-group list-group-flush bg-transparent">
+              <li class="list-group-item bg-transparent px-0 border-bottom d-flex gap-2">
+                <i class="bi bi-check-circle-fill text-success fs-5"></i>
+                <div>
+                  <strong>Financial Budget Clarity:</strong> Know your fixed monthly obligation before signing vehicle purchase agreements.
+                </div>
+              </li>
+              <li class="list-group-item bg-transparent px-0 border-bottom d-flex gap-2">
+                <i class="bi bi-check-circle-fill text-success fs-5"></i>
+                <div>
+                  <strong>Optimize Down Payment:</strong> A higher down payment drastically cuts total interest paid over the life of the loan.
+                </div>
+              </li>
+              <li class="list-group-item bg-transparent px-0 border-bottom d-flex gap-2">
+                <i class="bi bi-check-circle-fill text-success fs-5"></i>
+                <div>
+                  <strong>Tenure Comparison:</strong> Shorter tenures incur slightly higher monthly payments but save lakhs in compounding interest.
+                </div>
+              </li>
+              <li class="list-group-item bg-transparent px-0 border-0 d-flex gap-2">
+                <i class="bi bi-check-circle-fill text-success fs-5"></i>
+                <div>
+                  <strong>Amortization Awareness:</strong> Understand how each installment transitions from interest-heavy to principal-reducing over time.
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 2: Mathematical EMI Formula -->
+      <div class="card-modern p-4 p-md-5 mb-5" id="math-formula">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <span class="badge bg-primary px-3 py-1 rounded-pill">Financial Mathematics</span>
+          <span class="text-muted small">&bull; Monthly Reducing Balance Method</span>
+        </div>
+        <h2 class="h2 fw-bold text-dark mb-3">How Vehicle EMI is Mathematically Calculated</h2>
+        <p class="text-muted">
+          In India, vehicle loans are calculated using the <strong>Equated Monthly Installment (EMI) reducing balance formula</strong>. An equal payment is paid by the borrower each month to clear both interest and principal over the tenure.
+        </p>
+
+        <!-- Formula Display Box -->
+        <div class="bg-light p-4 rounded-3 border my-4 text-center">
+          <div class="font-monospace text-primary fw-bold" style="font-size: 1.5rem; letter-spacing: 0.03em;">
+            EMI = P &times; r &times; [ (1 + r)<sup>n</sup> / ( (1 + r)<sup>n</sup> &minus; 1 ) ]
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="p-3 bg-white rounded border h-100">
+              <h5 class="fw-bold text-primary mb-2">P = Loan Principal</h5>
+              <p class="small text-muted mb-0">
+                The net amount borrowed from the bank. Calculated as:
+                <br>
+                <code class="text-dark fw-bold">P = Vehicle On-Road Price &minus; Down Payment</code>
+              </p>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="p-3 bg-white rounded border h-100">
+              <h5 class="fw-bold text-primary mb-2">r = Monthly Interest Rate</h5>
+              <p class="small text-muted mb-0">
+                Annual percentage rate converted to a monthly decimal fraction:
+                <br>
+                <code class="text-dark fw-bold">r = (Annual Rate % &divide; 12) &divide; 100</code>
+              </p>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="p-3 bg-white rounded border h-100">
+              <h5 class="fw-bold text-primary mb-2">n = Total Months</h5>
+              <p class="small text-muted mb-0">
+                Total count of monthly repayment installments:
+                <br>
+                <code class="text-dark fw-bold">n = Loan Tenure in Years &times; 12</code>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Solved Numerical Example for Viva -->
+        <div class="mt-4 pt-3 border-top">
+          <h4 class="h5 fw-bold text-dark mb-3">
+            <i class="bi bi-pencil-square text-success me-2"></i>Step-by-Step Solved Viva Example
+          </h4>
+          <div class="bg-light p-4 rounded border">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <div class="fw-bold text-dark mb-2">Given Loan Parameters:</div>
+                <ul class="list-unstyled small text-muted mb-0">
+                  <li>&bull; <strong>Vehicle Price:</strong> ₹6,00,000</li>
+                  <li>&bull; <strong>Down Payment:</strong> ₹1,00,000</li>
+                  <li>&bull; <strong>Principal (P):</strong> ₹6,00,000 &minus; ₹1,00,000 = <strong>₹5,00,000</strong></li>
+                  <li>&bull; <strong>Annual Interest:</strong> 9.0% p.a.</li>
+                  <li>&bull; <strong>Monthly Rate (r):</strong> 9.0 / (12 &times; 100) = <strong>0.0075</strong></li>
+                  <li>&bull; <strong>Tenure (n):</strong> 5 years &times; 12 = <strong>60 months</strong></li>
+                </ul>
+              </div>
+
+              <div class="col-md-6 border-start-md">
+                <div class="fw-bold text-dark mb-2">Calculation Execution:</div>
+                <div class="small font-monospace bg-white p-3 rounded border">
+                  1. (1 + r)<sup>n</sup> = (1.0075)<sup>60</sup> &approx; 1.56568<br>
+                  2. Numerator = 500,000 &times; 0.0075 &times; 1.56568 &approx; 5,871.30<br>
+                  3. Denominator = 1.56568 &minus; 1 = 0.56568<br>
+                  4. EMI = 5,871.30 &divide; 0.56568 = <strong>₹10,379 / month</strong><br>
+                  5. Total Repaid = ₹10,379 &times; 60 = <strong>₹6,22,753</strong><br>
+                  6. Total Interest = ₹6,22,753 &minus; ₹5,00,000 = <strong>₹1,22,753</strong>
+                </div>
+              </div>
+            </div>
+
+            <!-- Zero Interest Scheme -->
+            <div class="mt-3 pt-3 border-top small text-muted">
+              <strong>Special Handling (Zero-Interest Schemes):</strong> When promotional 0% financing is offered, <code class="text-dark">r = 0</code>. To avoid dividing by zero (<code class="text-dark">0 / 0</code>), our algorithm routes through:
+              <br>
+              <code class="text-primary fw-bold">EMI = P &divide; n = ₹5,00,000 &divide; 60 = ₹8,333.33 / month</code> with <code class="text-success fw-bold">Total Interest = ₹0</code>.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: Technologies Used -->
+      <div class="row g-4 mb-5" id="tech-stack">
+        <div class="col-12">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <span class="badge bg-primary px-3 py-1 rounded-pill">Technical Architecture</span>
+            <span class="text-muted small">&bull; 100% Frontend Client-Side</span>
+          </div>
+          <h2 class="h2 fw-bold text-dark mb-3">Technologies Employed</h2>
+          <p class="text-muted">
+            The project adheres strictly to fundamental web development principles without relying on heavy frameworks, compilers, or server runtimes.
+          </p>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card-modern p-4 h-100">
+            <div class="vehicle-icon-wrap" style="background: #e0f2fe; color: #0284c7;">
+              <i class="bi bi-filetype-html"></i>
+            </div>
+            <h4 class="h5 fw-bold text-dark mb-2">HTML5 Semantic Structure</h4>
+            <p class="text-muted small mb-0">
+              Utilizes semantic HTML tags (<code class="text-dark">&lt;main&gt;, &lt;header&gt;, &lt;footer&gt;, &lt;aside&gt;</code>) along with accessible labels, form inputs, and SEO meta tags.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card-modern p-4 h-100">
+            <div class="vehicle-icon-wrap" style="background: #ecfdf5; color: #059669;">
+              <i class="bi bi-filetype-css"></i>
+            </div>
+            <h4 class="h5 fw-bold text-dark mb-2">CSS3 &amp; Bootstrap 5</h4>
+            <p class="text-muted small mb-0">
+              Modern banking theme styled with CSS variables, custom range sliders, micro-animations, glassmorphism, responsive grid layouts, and print stylesheets.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card-modern p-4 h-100">
+            <div class="vehicle-icon-wrap" style="background: #fef3c7; color: #d97706;">
+              <i class="bi bi-filetype-js"></i>
+            </div>
+            <h4 class="h5 fw-bold text-dark mb-2">Vanilla JavaScript (ES6+)</h4>
+            <p class="text-muted small mb-0">
+              Modular JavaScript managing authentication state, reactive slider/input synchronization, mathematical calculations, and Indian Rupee (<code class="text-dark">Intl.NumberFormat</code>) currency formatting.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="card-modern p-4 h-100">
+            <div class="vehicle-icon-wrap" style="background: #f3e8ff; color: #7e22ce;">
+              <i class="bi bi-pie-chart-fill"></i>
+            </div>
+            <h4 class="h5 fw-bold text-dark mb-2">Chart.js (Doughnut Visualization)</h4>
+            <p class="text-muted small mb-0">
+              Renders dynamic, interactive doughnut charts visualizing the split between net borrowed Principal and total bank Interest, updating instantaneously as sliders slide.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="card-modern p-4 h-100">
+            <div class="vehicle-icon-wrap" style="background: #fee2e2; color: #dc2626;">
+              <i class="bi bi-database-fill-gear"></i>
+            </div>
+            <h4 class="h5 fw-bold text-dark mb-2">Browser LocalStorage</h4>
+            <p class="text-muted small mb-0">
+              Powers mock user registration, session management, and saves individual calculation histories isolated by user email without needing a SQL server.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 4: Academic Security & Viva Discussion -->
+      <div class="card-modern p-4 p-md-5 mb-5 border-warning" id="security" style="border-left: 6px solid #f59e0b;">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <i class="bi bi-shield-exclamation text-warning fs-4"></i>
+          <h3 class="h4 fw-bold text-dark mb-0">Classroom Prototype vs Production Security (Viva Q&amp;A)</h3>
+        </div>
+        <p class="text-muted">
+          During college evaluations and viva questioning, examiners frequently ask about authentication security. Below is the explicit comparison between this educational prototype and an enterprise banking system:
+        </p>
+
+        <div class="table-custom-wrapper mt-3">
+          <table class="table table-custom">
+            <thead>
+              <tr>
+                <th>Security Dimension</th>
+                <th>This College Prototype (Demo)</th>
+                <th>Real Production Banking Application</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="fw-bold">Password Storage</td>
+                <td>Stored in browser <code class="text-dark">localStorage</code> for simple offline demonstration.</td>
+                <td class="text-success fw-bold">Salted &amp; hashed server-side using bcrypt, Argon2, or PBKDF2. Passwords are never stored in plaintext.</td>
+              </tr>
+              <tr>
+                <td class="fw-bold">Authentication State</td>
+                <td>JSON string stored in <code class="text-dark">localStorage / sessionStorage</code>.</td>
+                <td class="text-success fw-bold">Cryptographically signed JWT or server session tokens transmitted in HTTP-only, Secure, SameSite cookies.</td>
+              </tr>
+              <tr>
+                <td class="fw-bold">Transport Layer</td>
+                <td>File/HTTP protocol.</td>
+                <td class="text-success fw-bold">Strict Transport Security (HSTS) over TLS 1.3 / HTTPS.</td>
+              </tr>
+              <tr>
+                <td class="fw-bold">Storage Access</td>
+                <td>Accessible via browser DevTools (F12 Application tab).</td>
+                <td class="text-success fw-bold">Protected by browser sandbox; HTTP-only cookies cannot be read by client JavaScript (XSS immune).</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Section 5: Regulatory Financial Disclaimer -->
+      <div class="p-4 rounded-3 bg-light border text-muted small">
+        <h5 class="fw-bold text-dark mb-2"><i class="bi bi-info-circle me-1"></i> Financial Estimation Disclaimer</h5>
+        <p class="mb-0">
+          The monthly EMI, total interest, and amortization figures generated by this calculator are mathematical estimates based on reducing balance formulas and user-supplied parameters. Actual financing terms, interest rates, documentation charges, pre-EMI fees, stamp duty, insurance premiums, and final repayment schedules are determined solely by lending banks or non-banking financial institutions (NBFCs) according to their credit underwriting policies.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modern Footer -->
+  <footer class="footer-custom">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-4 col-md-6">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <div class="brand-icon" style="width: 32px; height: 32px; font-size: 1rem;">
+              <i class="bi bi-speedometer2"></i>
+            </div>
+            <h5 class="mb-0 text-white fw-bold">AutoLoanCalc</h5>
+          </div>
+          <p class="small text-white-50">
+            A comprehensive web technology demonstration project modeling vehicle loan calculations with modern UI design and client-side data isolation.
+          </p>
+        </div>
+        <div class="col-lg-2 col-md-3 col-6">
+          <h5>Quick Links</h5>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="calculator.html">EMI Calculator</a></li>
+            <li><a href="history.html">Loan History</a></li>
+            <li><a href="about.html">About &amp; Formulas</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-6 col-md-12">
+          <h5>Academic Demonstration</h5>
+          <p class="small text-white-50">
+            Engineered exclusively with HTML5, CSS3, Vanilla JS, Bootstrap 5, Chart.js, and LocalStorage without any backend server.
+          </p>
+        </div>
+      </div>
+      <div class="footer-bottom text-center">
+        &copy; 2026 Vehicle Loan Calculator Project. College Web Technology Demonstration.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Modular Scripts -->
+  <script src="js/auth.js"></script>
+  <script src="js/calculator.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
